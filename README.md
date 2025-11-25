@@ -1,7 +1,8 @@
 # Tugas_Besar_Komputasi_Statistik_Kelompok_1_RA
 
-## Team Members
+## PENERAPAN TEKNIK DATA MUNGING/WRANGLING DAN VISUALISASI STATISTIK UNTUK ANALISIS DATA KEPENDUDUKAN PROVINSI LAMPUNG TAHUN 2024
 
+## Team Members
 | NIM | Name | 
 | :--- | :--- | 
 | 123450009 | May Talitha Dahlia | 
