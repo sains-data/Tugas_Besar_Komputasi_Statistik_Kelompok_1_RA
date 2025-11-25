@@ -1,0 +1,315 @@
+---
+title: "Tugas Besar Komstat"
+author: "May Talitha Dahlia"
+date: "2025-11-08"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+# Library yang dibutuhkan
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+# 1. Import Dataset
+
+```{r}
+data <- read.csv("D:/SEMESTER 5/Komputasi Statistik/tubes/dataset/Penduduk, Laju Pertumbuhan Penduduk, Distribusi Persentase Penduduk Kepadatan Penduduk, Rasio Jenis Kelamin Penduduk Menurut Kabupaten_Kota di Provinsi Lampung, 2024 - Penduduk, Laju Pertumbuhan Pend.csv", sep = ",", header = TRUE)
+data
+```
+
+```{r}
+head(data)
+str(data)
+```
+
+# Menampilkan ringkasan data
+
+```{r}
+summary(data)
+```
+
+# 2. Cek dan Bersihkan Data
+
+```{r}
+# Hapus baris kosong dan duplikat
+data <- na.omit(data)
+data <- unique(data)
+```
+
+# 3. Ubah Nama Kolom agar lebih mudah dipanggil
+
+```{r}
+colnames(data) <- c("Kabupaten_Kota", "Jumlah_Penduduk", "Laju_Pertumbuhan", 
+                    "Distribusi_Persentase", "Kepadatan", "Rasio_Jenis_Kelamin")
+head(data)
+```
+
+```{r}
+names(data) <- c("Kabupaten_Kota","Jumlah_Penduduk","Laju_Pertumbuhan",
+                 "Persentase_Penduduk","Kepadatan","Rasio_JK")
+
+names(data)
+
+# Jika kolom numeric masih berbentuk teks, ubah dulu:
+to_num <- function(x){
+  x <- as.character(x)
+  x <- gsub("%","", x)
+  x <- gsub("\\.","", x)   # titik ribuan
+  x <- gsub(",",".", x)    # koma -> titik
+  suppressWarnings(as.numeric(x))
+}
+num_cols <- c("Jumlah_Penduduk","Laju_Pertumbuhan","Persentase_Penduduk","Kepadatan","Rasio_JK")
+data[num_cols] <- lapply(data[num_cols], to_num)
+```
+
+# 4. Membuat Variabel Baru
+
+```{r}
+data_new <- data %>%
+  mutate(
+    # Grup kepadatan 
+    KepadatanGroup = case_when(
+      Kepadatan >= 1000 ~ "Sangat Padat",
+      Kepadatan >=  500 ~ "Padat",
+      TRUE              ~ "Rendah"
+    ),
+    # Grup pertumbuhan
+    GrowthGroup = case_when(
+      Laju_Pertumbuhan < 1.10 ~ "Rendah",
+      Laju_Pertumbuhan < 1.30 ~ "Sedang",
+      TRUE                    ~ "Tinggi"
+    ),
+    # Dominasi jenis kelamin 
+    Dominasi_JK = ifelse(Rasio_JK >= 100, "Laki-laki", "Perempuan"),
+    DominasiFlag = ifelse(Rasio_JK >= 100, 1, 0)
+  )
+
+head(data_new[, c("Kabupaten_Kota","Kepadatan","KepadatanGroup",
+                  "Laju_Pertumbuhan","GrowthGroup","Rasio_JK","Dominasi_JK","DominasiFlag")], 10)
+```
+
+# 5. Subsetting Data
+
+```{r}
+# Ambil kabupaten dengan kepadatan tinggi
+subset_data1 <- data_new %>% select(Kabupaten_Kota, Kepadatan, Laju_Pertumbuhan)
+subset_data2 <- data_new %>% filter(KepadatanGroup == "Sangat Padat")
+subset_data3 <- data_new %>% filter(KepadatanGroup == "Padat", Dominasi_JK == "Laki-laki")
+
+head(subset_data1)
+head(subset_data2)
+head(subset_data3)
+```
+
+# 6. Sorting Data
+
+```{r}
+# Urutkan berdasarkan laju pertumbuhan tertinggi
+sorted_kepadatan_asc  <- data_new %>% arrange(Kepadatan)
+sorted_growth_desc    <- data_new %>% arrange(desc(Laju_Pertumbuhan))
+sorted_combo          <- data_new %>% arrange(GrowthGroup, Kepadatan)
+
+head(sorted_kepadatan_asc)
+head(sorted_growth_desc)
+head(sorted_combo)
+```
+
+# 7. Recoding Data
+
+```{r}
+recorded_data <- data_new %>% select(Kabupaten_Kota, Jumlah_Penduduk,
+                                     Laju_Pertumbuhan, Kepadatan, Rasio_JK)
+head(recorded_data)
+```
+
+```{r}
+# total penduduk (ribu -> jiwa)
+total_penduduk <- sum(recorded_data$Jumlah_Penduduk, na.rm = TRUE) * 1000
+total_penduduk
+```
+
+# 8. Merging Data
+
+```{r}
+wilayah_tbl <- data.frame(
+  Kabupaten_Kota = data_new$Kabupaten_Kota,
+  Wilayah = c("Utara","Selatan","Barat","Timur","Tengah",
+              rep("Lainnya", max(0, nrow(data_new)-5)))
+)
+
+# Gabungkan berdasarkan nama kabupaten/kota
+merged_data <- left_join(
+  data_new %>% select(Kabupaten_Kota, Kepadatan, KepadatanGroup, GrowthGroup),
+  wilayah_tbl,
+  by = "Kabupaten_Kota"
+)
+head(merged_data)
+```
+
+# 9. Reshaping Data
+
+```{r}
+# Contoh: ubah data dari wide ke long format
+library(reshape2)
+data_long <- melt(data, id.vars = "Kabupaten_Kota",
+                  variable.name = "Indikator",
+                  value.name = "Nilai")
+head(data_long)
+```
+
+```{r}
+# Contoh: ubah dari long ke wide format
+data_wide <- dcast(data_long, Kabupaten_Kota ~ Indikator, value.var = "Nilai")
+head(data_wide)
+
+# OUTPUT AKHIR
+write.csv(data, "Data_Lampung2024_Bersih.csv", row.names = FALSE)
+```
+
+```{r}
+# a) Buat ringkasan dulu (rata kepadatan per Kategori x Dominasi)
+ringkas <- data_new %>%
+  count(KepadatanGroup, Dominasi_JK, name = "Jumlah_KabKota")
+
+# wide: kolom per Dominasi_JK (mirip kolom “No/Yes”)
+wide_tbl <- ringkas %>%
+  pivot_wider(names_from = Dominasi_JK, values_from = Jumlah_KabKota, values_fill = 0)
+head(wide_tbl)
+
+# tambahkan 1 data kosong supaya dua kategori pasti muncul
+kategori_fix <- expand.grid(
+  KepadatanGroup = unique(data_new$KepadatanGroup),
+  Dominasi_JK = c("Laki-laki", "Perempuan")
+)
+
+ringkas_fix <- merge(ringkas, kategori_fix, all.y = TRUE)
+ringkas_fix[is.na(ringkas_fix$Jumlah_KabKota), "Jumlah_KabKota"] <- 0
+
+# lanjutkan reshaping seperti biasa
+wide_tbl <- ringkas_fix %>%
+  pivot_wider(names_from = Dominasi_JK, values_from = Jumlah_KabKota)
+long_tbl <- wide_tbl %>%
+  pivot_longer(cols = -KepadatanGroup, names_to = "Dominasi_JK", values_to = "Jumlah_KabKota")
+```
+
+```{r}
+rata_kepadatan_per_group <- data_new %>%
+  group_by(KepadatanGroup) %>%
+  summarise(Rata_Kepadatan = mean(Kepadatan, na.rm = TRUE), .groups = "drop")
+rata_kepadatan_per_group
+```
+
+# VISUALISASI
+
+```{r}
+# 1. Import Library
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+```
+
+```{r}
+## VISUALISASI SEBELUM SUBSETTING 
+ggplot(data_new, aes(x = reorder(Kabupaten_Kota, Kepadatan),
+                     y = Kepadatan,
+                     fill = KepadatanGroup)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Kepadatan Penduduk per Kabupaten/Kota (Sebelum Subsetting)",
+    x = "Kabupaten/Kota",
+    y = "Kepadatan (jiwa/km²)",
+    fill = "Kategori Kepadatan"
+  ) +
+  theme_minimal()
+
+## SUBSETTING: Hanya kabupaten/kota Sangat Padat
+subset_sangat_padat <- data_new %>% 
+  filter(KepadatanGroup == "Sangat Padat")
+
+# VISUALISASI SETELAH SUBSETTING
+ggplot(subset_sangat_padat,
+       aes(x = Kabupaten_Kota,
+           y = Kepadatan,
+           fill = KepadatanGroup)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Kepadatan Penduduk (Setelah Subsetting: Kategori Sangat Padat)",
+    x = "Kabupaten/Kota",
+    y = "Kepadatan (jiwa/km²)"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+## VISUALISASI SEBELUM SORTING
+ggplot(data_new, aes(x = Kabupaten_Kota,
+                     y = Kepadatan,
+                     fill = KepadatanGroup)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Kepadatan Penduduk per Kabupaten/Kota (Sebelum Sorting)",
+    x = "Kabupaten/Kota",
+    y = "Kepadatan (jiwa/km²)",
+    fill = "Kategori Kepadatan"
+  ) +
+  theme_minimal()
+
+## VISUALISASI SETELAH SORTING
+ggplot(data_new, aes(x = reorder(Kabupaten_Kota, Kepadatan),
+                     y = Kepadatan,
+                     fill = KepadatanGroup)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Kepadatan Penduduk per Kabupaten/Kota (Setelah Sorting)",
+    x = "Kabupaten/Kota",
+    y = "Kepadatan (jiwa/km²)",
+    fill = "Kategori Kepadatan"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+# Grafik sebelum wrangling (raw)
+ggplot(data, aes(x = Kabupaten_Kota,
+                 y = Laju_Pertumbuhan)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(
+    title = "Laju Pertumbuhan Penduduk (Raw Data – Sebelum Wrangling)",
+    x = "Kabupaten/Kota",
+    y = "Laju Pertumbuhan (%)"
+  ) +
+  theme_minimal()
+
+
+# Grafik setelah wrangling (raw)
+ggplot(data_new, 
+       aes(x = reorder(Kabupaten_Kota, Laju_Pertumbuhan),
+           y = Laju_Pertumbuhan,
+           fill = KepadatanGroup)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Laju Pertumbuhan Penduduk per Kabupaten/Kota (Setelah Wrangling)",
+    x = "Kabupaten/Kota",
+    y = "Laju Pertumbuhan (%)",
+    fill = "Kategori Kepadatan"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+# SIMPAN HASIL DATA BERSIH
+write.csv(data, "Data_Lampung2024_Bersih.csv", row.names = FALSE)
+```
