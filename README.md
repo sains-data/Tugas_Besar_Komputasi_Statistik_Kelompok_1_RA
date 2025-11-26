@@ -7,6 +7,7 @@ Data kependudukan merupakan komponen penting dalam pengambilan keputusan,perenca
 
 ## Metode Yang Digunakan
 | Metode | Deskripsi |
+| :--- | :--- | 
 | Handling Missing Values | Menangani nilai Kosong dengan mengisi, menghapus, atau menyesuaikan data |
 | Menciptakan Variabel Baru | Menambahkan kolom baru untuk memberikan informasi tambahan |
 | Transformasi Kolom | Mengubah format atau tipe data |
