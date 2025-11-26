@@ -17,6 +17,20 @@ Data kependudukan merupakan komponen penting dalam pengambilan keputusan,perenca
 | Reshaping | Mengatur ulang bentuk data sesuai kebutuhan analisis |
 | Recoding | Mengubah atau menyeragmkan isi kategori agar konsisten |
 | Merging | menggabungkan bebrapa tabel atau sumber berdasarkan kolom kunci |
+
+## Hasil dan Insight
+Hasil
+- Nilai kosong teratasi.
+- Nama wilayah konsisten.
+- Pola kependudukan terlihat jelas.
+- Wilayah dengan nilai tertinggi dan terendah terbaca langsung.
+- Visualisasi mudah dipahami. 
+Insight
+- Kota Bandar Lampung sebagai kota dengan kepadatan penduduk tertinggi.
+- Pertumbuhan penduduk stabil (1.0-1.3%).
+- Mayoritas sex ratio > 100, mengindikasi dominasi penduduk laki-laki.
+- Kategori kepadatan penduduk wilayah didominasi rendah-sedang.
+
 ## Anggota Kelompok
 | NIM | Name | 
 | :--- | :--- | 
