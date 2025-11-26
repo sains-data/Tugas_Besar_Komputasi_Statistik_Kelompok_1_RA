@@ -41,7 +41,7 @@ Insight
 | `PPT_1_RA.pptx` | File presentasi kelompok terkait hasil Tugas Besar Komputasi Statistik                |
 | `Poster_1_RA.png` | File Poster Tugas Besar Komputasi Statistik |
 | `Video_Youtube_Kel-1_RA.pdf`    | File Dokumentasi  terkait video presentasi          |
-| README.md | Dokumentasi utama repository yang menjelaskan isi proyek  |
+| `README.md` | Dokumentasi utama repository yang menjelaskan isi proyek  |
 
 ## Anggota Kelompok
 | NIM | Name | 
