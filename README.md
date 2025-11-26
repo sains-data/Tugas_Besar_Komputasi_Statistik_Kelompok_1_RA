@@ -32,6 +32,17 @@ Insight
 - Mayoritas sex ratio > 100, mengindikasi dominasi penduduk laki-laki.
 - Kategori kepadatan penduduk wilayah didominasi rendah-sedang.
 
+## Struktur Repository
+| File/Folder                 | Deskripsi                            |
+| --------------------------- | ------------------------------------ |
+| `Laju Pertumbuhan.csv`         | Dataset mentah sebelum dilakukan proses Data wrangling  |
+| `codeR_1_RA.Rmd`            | Script R Markdown yang berisi seluruh kode untuk pembersihan & visualisasi |
+| `Laporan_1_RA.docx`    | Laporan akhir yang berisi penjelasa metode, hasil dan pembahasan proyek                 |
+| `PPT_1_RA.pptx` | File presentasi kelompok terkait hasil Tugas Besar Komputasi Statistik                |
+| `Poster_1_RA.png` | File Poster Tugas Besar Komputasi Statistik |
+| `Video_Youtube_Kel-1_RA.pdf`    | File Dokumentasi  terkait video presentasi          |
+| README.md | Dokumentasi utama repository yang menjelaskan isi proyek  |
+
 ## Anggota Kelompok
 | NIM | Name | 
 | :--- | :--- | 
