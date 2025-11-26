@@ -1,7 +1,22 @@
-# Tugas_Besar_Komputasi_Statistik_Kelompok_1_RA
-PENERAPAN TEKNIK DATA MUNGING/WRANGLING DAN VISUALISASI STATISTIK UNTUK ANALISIS DATA KEPENDUDUKAN PROVINSI LAMPUNG TAHUN 2024
+# PENERAPAN TEKNIK DATA MUNGING/WRANGLING DAN VISUALISASI STATISTIK UNTUK ANALISIS DATA KEPENDUDUKAN PROVINSI LAMPUNG TAHUN 2024
+## Kelompok Komputasi Statistik 1 RA
+Repositori berisi hasil pengerjaan Tugas Besar mata kuliah Komputasi Statistik. Proyek ini fokus pada pembersihan,penataan, dan menstandardisasi dataset kependudukan Provinsi Lampung pada tahun 2024 menggunakan Teknik Data Wrangling, sehingga data siap digunakan untuk analisis dan visualisasi yang diimplementasikan menggunakan pemprograman R Studio.
 
-## Team Members
+## Latar Belakang
+Data kependudukan merupakan komponen penting dalam pengambilan keputusan,perencanaan pembangunan, dan analisis wilayah. Namun, data mentah sering kali mengandung masalah seperti: nilai hilang, duplikasi, format tidak seragam, penamaan wilayah tidak konsisten, dan data belum terstruktur. Hal ini dapat memicu analisis yang bias dan visualisasi yang tidak akurat. Karena itu, Data Wrangling diperlukan sebagai tahap awal untuk memastikan data bersih, dan siap dianalisis.
+
+## Metode Yang Digunakan
+| Metode | Deskripsi |
+| Handling Missing Values | Menangani nilai Kosong dengan mengisi, menghapus, atau menyesuaikan data |
+| Menciptakan Variabel Baru | Menambahkan kolom baru untuk memberikan informasi tambahan |
+| Transformasi Kolom | Mengubah format atau tipe data |
+| Standardisasi Kolom | menyeragamkan penulisan, format angka, satuan, atau nama wilayah agar konsisten|
+| Subsetting | Mengambil sebagian data yang dibutuhkan |
+| Sorting | Mengurutkan data berdasarkan variabel tertentu untuk memudahkan analisis |
+| Reshaping | Mengatur ulang bentuk data sesuai kebutuhan analisis |
+| Recoding | Mengubah atau menyeragmkan isi kategori agar konsisten |
+| Merging | menggabungkan bebrapa tabel atau sumber berdasarkan kolom kunci |
+## Anggota Kelompok
 | NIM | Name | 
 | :--- | :--- | 
 | 123450009 | May Talitha Dahlia | 
@@ -9,6 +24,6 @@ PENERAPAN TEKNIK DATA MUNGING/WRANGLING DAN VISUALISASI STATISTIK UNTUK ANALISIS
 | 123450076 | Iqfina Haula Halika |
 | 122450108 | Citra Agustin | 
 
-## Video Youtube
-[Klik untuk menonton video](https://youtu.be/JwEk89Or3Cc?si=BozIRM5yYd1laoEI)
+## Video Youtube 
+[Klik untuk menonton video presentasi hasil](https://youtu.be/JwEk89Or3Cc?si=BozIRM5yYd1laoEI)
 
