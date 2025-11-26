@@ -24,7 +24,8 @@ Hasil
 - Nama wilayah konsisten.
 - Pola kependudukan terlihat jelas.
 - Wilayah dengan nilai tertinggi dan terendah terbaca langsung.
-- Visualisasi mudah dipahami. 
+- Visualisasi mudah dipahami.
+
 Insight
 - Kota Bandar Lampung sebagai kota dengan kepadatan penduduk tertinggi.
 - Pertumbuhan penduduk stabil (1.0-1.3%).
